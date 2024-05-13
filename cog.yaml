@@ -1,0 +1,33 @@
+# Configuration for Cog ⚙️
+# Reference: https://github.com/replicate/cog/blob/main/docs/yaml.md
+
+image: "arkaprav0/tortoise-tts-api"
+build:
+  gpu: true
+  cuda: "11.7"
+
+  system_packages:
+    - libsndfile-dev
+    - ffmpeg
+
+  python_version: "3.9"
+  python_packages:
+    - "inflect"
+    - "numba"
+    - "torch"
+    - "torchaudio"
+    - "transformers==4.29.2"
+
+  run:
+    - pip install -e 'git+https://github.com/neonbjb/tortoise-tts#egg=TorToiSe'
+    - mkdir -p /root/.cache/tortoise/models/
+    - wget -c 'https://huggingface.co/jbetker/tortoise-tts-v2/resolve/main/.models/autoregressive.pth' -P /root/.cache/tortoise/models/
+    - wget -c 'https://huggingface.co/jbetker/tortoise-tts-v2/resolve/main/.models/classifier.pth' -P /root/.cache/tortoise/models/
+    - wget -c 'https://huggingface.co/jbetker/tortoise-tts-v2/resolve/main/.models/clvp2.pth' -P /root/.cache/tortoise/models/
+    - wget -c 'https://huggingface.co/jbetker/tortoise-tts-v2/resolve/main/.models/cvvp.pth' -P /root/.cache/tortoise/models/
+    - wget -c 'https://huggingface.co/jbetker/tortoise-tts-v2/resolve/main/.models/diffusion_decoder.pth' -P /root/.cache/tortoise/models/
+    - wget -c 'https://huggingface.co/jbetker/tortoise-tts-v2/resolve/main/.models/vocoder.pth' -P /root/.cache/tortoise/models/
+    - wget -c 'https://huggingface.co/jbetker/tortoise-tts-v2/resolve/main/.models/rlg_auto.pth' -P /root/.cache/tortoise/models/
+    - wget -c 'https://huggingface.co/jbetker/tortoise-tts-v2/resolve/main/.models/rlg_diffuser.pth' -P /root/.cache/tortoise/models/
+
+predict: "predict.py:Predictor"
